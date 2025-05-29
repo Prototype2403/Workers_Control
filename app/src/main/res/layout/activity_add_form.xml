@@ -38,7 +38,7 @@
                 android:layout_weight="1"
                 android:text="Фамилия"
                 android:paddingStart="10dp"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/editText_Family"
@@ -63,7 +63,7 @@
                 android:layout_weight="1"
                 android:text="Имя"
                 android:paddingStart="10dp"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/editText_Name"
@@ -88,7 +88,7 @@
                 android:layout_weight="1"
                 android:text="Отчество"
                 android:paddingStart="10dp"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/editText_FatherName"
@@ -112,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Должность"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:paddingStart="10dp" />
 
             <EditText

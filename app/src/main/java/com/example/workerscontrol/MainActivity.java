@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -42,7 +43,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         dataListView = findViewById(R.id.dataListView);
-
+        dataListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent2 = new Intent(MainActivity.this, ViewEmployeeActivity.class);
+                intent2.putExtra("id", id);
+                startActivity(intent2);
+            }
+        });
     }
 
     @Override

@@ -13,6 +13,9 @@
         android:theme="@style/Theme.WorkersControl"
         tools:targetApi="31">
         <activity
+            android:name=".ViewEmployeeActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddForm"
             android:exported="false" />
         <activity
