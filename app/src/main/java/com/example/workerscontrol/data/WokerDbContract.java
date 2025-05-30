@@ -36,5 +36,8 @@ public final class WokerDbContract {
         public static final String COLUMN_TIME = "time";
         public static final String COLUMN_TYPE = "type";
 
+        public static final int EVENT_TO_WORK = 1;
+        public static final int EVENT_FROM_WORK = 2;
+
     }
 }

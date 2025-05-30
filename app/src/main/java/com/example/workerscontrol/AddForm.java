@@ -117,4 +117,9 @@ public class AddForm extends AppCompatActivity {
             Toast.makeText(this, "Ошибка при добавлении!", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }
