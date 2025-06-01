@@ -14,6 +14,8 @@
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="30dp"
         android:clickable="true"
+        android:tint="@null"
+        android:backgroundTint="@color/colorPrimary"
         android:contentDescription="Add_New_People"
         android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:text="TextView"
-        android:textColor="@color/black"/>
+        />
 
     <TextView
         android:id="@+id/timeEvent_textView"
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="TextView"
-        android:textColor="@color/black"/>
+        />
 
     <TextView
         android:id="@+id/nameEvent_textView"
@@ -29,5 +29,5 @@
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:text="TextView"
-        android:textColor="@color/black"/>
+        />
 </LinearLayout>

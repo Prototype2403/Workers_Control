@@ -80,7 +80,6 @@ public class PeriodStatistic extends Fragment {
     }
 
     private void updateStatistics() {
-        // Получаем даты начала и конца периода
         Calendar calendar = Calendar.getInstance();
         String startDate, endDate;
 

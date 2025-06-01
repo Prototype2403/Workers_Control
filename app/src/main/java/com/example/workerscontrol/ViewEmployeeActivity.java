@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -313,5 +316,49 @@ public class ViewEmployeeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.view_employee_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.edit_worker){
+            Intent intent = new Intent(this, AddForm.class);
+            intent.putExtra("id", id);
+            startActivity(intent);
+        }else if(item.getItemId() == R.id.delete_worker){
+            new AlertDialog.Builder(this)
+                .setTitle("Удаление работника")
+                .setMessage("Вы действительно хотите удалить этого работника? Все его события также будут удалены.")
+                .setPositiveButton("Да", (dialog, which) -> {
+                    WorkerRepository workerRepository = new WorkerRepository(this);
+                    EventRepository eventRepository = new EventRepository(this);
+
+                    Cursor events = eventRepository.getEventsByWorker(id);
+                    if (events != null && events.getCount() > 0) {
+                        while (events.moveToNext()) {
+                            long eventId = events.getLong(events.getColumnIndexOrThrow("_id"));
+                            eventRepository.deleteEvent(eventId);
+                        }
+                        events.close();
+                    }
+
+                    int result = workerRepository.deleteWorker(id);
+                    if (result > 0) {
+                        Toast.makeText(this, "Работник успешно удален", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Toast.makeText(this, "Ошибка при удалении работника", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("Нет", null)
+                .show();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

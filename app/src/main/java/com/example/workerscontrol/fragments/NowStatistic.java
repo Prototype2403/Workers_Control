@@ -88,14 +88,12 @@ public class NowStatistic extends Fragment {
         
         comeTime_textView.setText(comeTime);
         homeTime_textView.setText(homeTime);
-        
-        // Получаем плановое время работы
+
         Cursor workerData = workerRepository.getWorkerById(workerId);
         if (workerData != null && workerData.moveToFirst()) {
             String plannedTimeFrom = workerData.getString(workerData.getColumnIndex(WokerDbContract.Worker.COLUMN_TIME_FROM));
             String plannedTimeTo = workerData.getString(workerData.getColumnIndex(WokerDbContract.Worker.COLUMN_TIME_TO));
-            
-            // Расчет опоздания/раннего прихода
+
             if (!comeTime.equals("--:--")) {
                 long diffMinutes = getTimeDifferenceInMinutes(plannedTimeFrom, comeTime);
                 if (diffMinutes > 0) {
@@ -111,8 +109,7 @@ public class NowStatistic extends Fragment {
             } else {
                 lateness_textView.setText("--:--");
             }
-            
-            // Расчет переработки/раннего ухода
+
             if (!homeTime.equals("--:--")) {
                 long diffMinutes = getTimeDifferenceInMinutes(plannedTimeTo, homeTime);
                 if (diffMinutes > 0) {

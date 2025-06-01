@@ -19,7 +19,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Опозданий:"
-                android:textColor="@color/black"
                 android:textSize="12sp"
                 android:layout_weight="1" />
 
@@ -29,15 +28,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:text="0"
-                android:textSize="12sp"
-                android:textColor="@color/black"/>
+                android:textSize="12sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Переработок:"
                 android:textSize="12sp"
-                android:textColor="@color/black"
                 android:layout_weight="1"/>
 
             <TextView
@@ -46,7 +43,6 @@
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:textSize="12sp"
-                android:textColor="@color/black"
                 android:layout_weight="3"
                 />
         </LinearLayout>
@@ -60,7 +56,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Всего опозданий на:"
-                android:textColor="@color/black"
                 android:textSize="12sp"
                 android:layout_weight="1" />
 
@@ -70,15 +65,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:text="00:00"
-                android:textSize="12sp"
-                android:textColor="@color/black"/>
+                android:textSize="12sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Всего переработок на:"
                 android:textSize="12sp"
-                android:textColor="@color/black"
                 android:layout_weight="1"/>
 
             <TextView
@@ -87,7 +80,6 @@
                 android:layout_height="wrap_content"
                 android:text="00:00"
                 android:textSize="12sp"
-                android:textColor="@color/black"
                 android:layout_weight="3"
                 />
         </LinearLayout>
@@ -101,7 +93,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Среднее опоздание на:"
-                android:textColor="@color/black"
                 android:textSize="12sp"
                 android:layout_weight="1" />
 
@@ -111,15 +102,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:text="00:00"
-                android:textSize="12sp"
-                android:textColor="@color/black"/>
+                android:textSize="12sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Средняя переработка на:"
                 android:textSize="12sp"
-                android:textColor="@color/black"
                 android:layout_weight="1"/>
 
             <TextView
@@ -128,7 +117,6 @@
                 android:layout_height="wrap_content"
                 android:text="00:00"
                 android:textSize="12sp"
-                android:textColor="@color/black"
                 android:layout_weight="3"
                 />
         </LinearLayout>
@@ -142,7 +130,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Среднее начало дня:"
-                android:textColor="@color/black"
                 android:textSize="12sp"
                 android:layout_weight="1" />
 
@@ -152,15 +139,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:text="00:00"
-                android:textSize="12sp"
-                android:textColor="@color/black"/>
+                android:textSize="12sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Среднее конца дня:"
                 android:textSize="12sp"
-                android:textColor="@color/black"
                 android:layout_weight="1"/>
 
             <TextView
@@ -169,7 +154,6 @@
                 android:layout_height="wrap_content"
                 android:text="00:00"
                 android:textSize="12sp"
-                android:textColor="@color/black"
                 android:layout_weight="3"
                 />
         </LinearLayout>

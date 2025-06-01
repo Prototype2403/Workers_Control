@@ -24,7 +24,6 @@ public class EventRepository {
         return db.insert(Events.TABLE_NAME, null, values);
     }
 
-    // 2. Обновление события
     public int updateEvent(long eventId, long workerId, String date, String time, int type) {
         ContentValues values = new ContentValues();
         values.put(Events.COLUMN_WORKER_ID, workerId);
@@ -38,28 +37,24 @@ public class EventRepository {
         return db.update(Events.TABLE_NAME, values, whereClause, whereArgs);
     }
 
-    // 3. Удаление события
     public int deleteEvent(long eventId) {
         String whereClause = Events.COLUM_EVENT_ID + " = ?";
         String[] whereArgs = { String.valueOf(eventId) };
         return db.delete(Events.TABLE_NAME, whereClause, whereArgs);
     }
 
-    // 4. Получение событий по дате
     public Cursor getEventsByDate(String date) {
         String selection = Events.COLUMN_DATE + " = ?";
         String[] selectionArgs = { date };
         return db.query(Events.TABLE_NAME, null, selection, selectionArgs, null, null, Events.COLUMN_TIME + " ASC");
     }
 
-    // 5. Получение событий по диапазону дат
     public Cursor getEventsBetweenDates(String startDate, String endDate) {
         String selection = Events.COLUMN_DATE + " BETWEEN ? AND ?";
         String[] selectionArgs = { startDate, endDate };
         return db.query(Events.TABLE_NAME, null, selection, selectionArgs, null, null, Events.COLUMN_DATE + " ASC, " + Events.COLUMN_TIME + " ASC");
     }
 
-    // 6. Получение событий по сотруднику (опционально)
     public Cursor getEventsByWorker(long workerId) {
         String selection = Events.COLUMN_WORKER_ID + " = ?";
         String[] selectionArgs = { String.valueOf(workerId) };
@@ -80,7 +75,6 @@ public class EventRepository {
     }
 
 
-    // 7. Получение событий по сотруднику и дате
     public Cursor getEventsByWorkerAndDate(long workerId, String date) {
         String selection = Events.COLUMN_WORKER_ID + " = ? AND " + Events.COLUMN_DATE + " = ?";
         String[] selectionArgs = { String.valueOf(workerId), date };
@@ -99,7 +93,6 @@ public class EventRepository {
     }
 
 
-    // 8. Получение событий по сотруднику и диапазону дат
     public Cursor getEventsByWorkerAndDateRange(long workerId, String startDate, String endDate) {
         String selection = Events.COLUMN_WORKER_ID + " = ? AND " + Events.COLUMN_DATE + " BETWEEN ? AND ?";
         String[] selectionArgs = { String.valueOf(workerId), startDate, endDate };

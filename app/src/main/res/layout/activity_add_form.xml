@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/title_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Добавить работника"
@@ -147,6 +147,7 @@
                 android:text="Пн"
                 android:textSize="18sp"
                 android:paddingLeft="5dp"
+                android:textAlignment="center"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -155,6 +156,7 @@
                 android:text="Вт"
                 android:textSize="18sp"
                 android:paddingLeft="5dp"
+                android:textAlignment="center"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -163,6 +165,7 @@
                 android:text="Ср"
                 android:textSize="18sp"
                 android:paddingLeft="5dp"
+                android:textAlignment="center"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -171,6 +174,7 @@
                 android:text="Чт"
                 android:textSize="18sp"
                 android:paddingLeft="5dp"
+                android:textAlignment="center"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -179,6 +183,7 @@
                 android:text="Пт"
                 android:textSize="18sp"
                 android:paddingLeft="5dp"
+                android:textAlignment="center"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -187,6 +192,7 @@
                 android:text="Сб"
                 android:textSize="18sp"
                 android:paddingLeft="5dp"
+                android:textAlignment="center"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -195,6 +201,7 @@
                 android:text="Вс"
                 android:textSize="18sp"
                 android:paddingLeft="5dp"
+                android:textAlignment="center"
                 />
         </LinearLayout>
         <LinearLayout

@@ -1,11 +1,15 @@
 package com.example.workerscontrol;
 
+import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
+import android.content.ContentValues;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -15,21 +19,24 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.workerscontrol.data.WorkerRepository;
+import com.example.workerscontrol.data.WokerDbContract;
 
 public class AddForm extends AppCompatActivity {
-
+    long id = -1;
     EditText editText_name;
     EditText editText_family;
     EditText editText_fatherName;
     EditText editText_post;
     EditText editText_timeFrom;
     EditText editText_timeTo;
+    TextView title_textView;
 
     CheckBox monday_check, tuesday_check, wednesday_check,
             thursday_check, friday_check, saturday_check, sunday_check;
 
     Button save_button;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +68,39 @@ public class AddForm extends AppCompatActivity {
         editText_timeTo.setOnClickListener(v -> showTimePickerDialog(editText_timeTo));
 
         save_button.setOnClickListener(v -> saveWorkerToDatabase());
+
+        title_textView = findViewById(R.id.title_textView);
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+            id = extras.getLong("id");
+            title_textView.setText("Редактировать работника");
+            WorkerRepository repository = new WorkerRepository(this);
+            Cursor data = repository.getWorkerById(id);
+            if (data != null && data.moveToFirst()) {
+                String fullName = data.getString(data.getColumnIndexOrThrow("fio"));
+                String[] nameParts = fullName.split(" ");
+                
+                editText_family.setText(nameParts[0]);
+                editText_name.setText(nameParts.length > 1 ? nameParts[1] : "");
+                editText_fatherName.setText(nameParts.length > 2 ? nameParts[2] : "");
+                
+                editText_post.setText(data.getString(data.getColumnIndexOrThrow("post")));
+                editText_timeFrom.setText(data.getString(data.getColumnIndexOrThrow("time_from")));
+                editText_timeTo.setText(data.getString(data.getColumnIndexOrThrow("time_to")));
+                
+                monday_check.setChecked(data.getInt(data.getColumnIndexOrThrow("monday")) == 1);
+                tuesday_check.setChecked(data.getInt(data.getColumnIndexOrThrow("tuesday")) == 1);
+                wednesday_check.setChecked(data.getInt(data.getColumnIndexOrThrow("wednesday")) == 1);
+                thursday_check.setChecked(data.getInt(data.getColumnIndexOrThrow("thursday")) == 1);
+                friday_check.setChecked(data.getInt(data.getColumnIndexOrThrow("friday")) == 1);
+                saturday_check.setChecked(data.getInt(data.getColumnIndexOrThrow("saturday")) == 1);
+                sunday_check.setChecked(data.getInt(data.getColumnIndexOrThrow("sunday")) == 1);
+                
+                data.close();
+            }
+        }else {
+            title_textView.setText("Добавить работника");
+        }
     }
 
     private void showTimePickerDialog(EditText targetEditText) {
@@ -94,9 +134,32 @@ public class AddForm extends AppCompatActivity {
         }
 
         String fullName = family + " " + name + " " + fatherName;
+        WorkerRepository workerRepository = new WorkerRepository(this);
+        long result;
+        
+        if (id != -1) {
+            ContentValues values = new ContentValues();
+            values.put(WokerDbContract.Worker.COLUMN_FIO, fullName);
+            values.put(WokerDbContract.Worker.COLUMN_POST, post);
+            values.put(WokerDbContract.Worker.COLUMN_TIME_FROM, timeFrom);
+            values.put(WokerDbContract.Worker.COLUMN_TIME_TO, timeTo);
+            values.put(WokerDbContract.Worker.COLUMN_MONDAY, days[0] ? 1 : 0);
+            values.put(WokerDbContract.Worker.COLUMN_TUESDAY, days[1] ? 1 : 0);
+            values.put(WokerDbContract.Worker.COLUMN_WEDNESDAY, days[2] ? 1 : 0);
+            values.put(WokerDbContract.Worker.COLUMN_THURSDAY, days[3] ? 1 : 0);
+            values.put(WokerDbContract.Worker.COLUMN_FRIDAY, days[4] ? 1 : 0);
+            values.put(WokerDbContract.Worker.COLUMN_SATURDAY, days[5] ? 1 : 0);
+            values.put(WokerDbContract.Worker.COLUMN_SUNDAY, days[6] ? 1 : 0);
 
-        WorkerRepository workerRepository= new WorkerRepository(this);
-        long result = workerRepository.insertWorker(
+            result = workerRepository.updateWorker(id, values);
+            if (result > 0) {
+                Toast.makeText(this, "Данные работника обновлены!", Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                Toast.makeText(this, "Ошибка при обновлении данных!", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            result = workerRepository.insertWorker(
                 fullName,
                 post,
                 timeFrom,
@@ -108,13 +171,13 @@ public class AddForm extends AppCompatActivity {
                 days[4] ? 1 : 0,
                 days[5] ? 1 : 0,
                 days[6] ? 1 : 0
-        );
-        boolean success = result != -1;
-        if (success) {
-            Toast.makeText(this, "Работник добавлен!", Toast.LENGTH_SHORT).show();
-            finish(); // Закрыть форму
-        } else {
-            Toast.makeText(this, "Ошибка при добавлении!", Toast.LENGTH_SHORT).show();
+            );
+            if (result != -1) {
+                Toast.makeText(this, "Работник добавлен!", Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                Toast.makeText(this, "Ошибка при добавлении!", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

@@ -31,7 +31,6 @@
                 android:text="Имя сотрудника"
                 android:textSize="24sp"
                 android:textAlignment="center"
-                android:textColor="@color/black"
                 android:layout_marginTop="10dp"/>
 
             <TextView
@@ -39,7 +38,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Должность сотрудника"
-                android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textAlignment="center"
                 android:layout_marginTop="4dp"/>
@@ -49,7 +47,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Статус работы"
-                android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textAlignment="center"
                 android:layout_marginTop="4dp"/>
@@ -60,7 +57,6 @@
                 android:text="Рабочие дни"
                 android:textSize="20sp"
                 android:textAlignment="center"
-                android:textColor="@color/black"
                 android:layout_marginTop="20dp"/>
 
             <TextView
@@ -70,7 +66,6 @@
                 android:text="Пн Вт Ср Чт Пт Сб Вс"
                 android:textSize="18sp"
                 android:textAlignment="center"
-                android:textColor="@color/black"
                 android:layout_marginTop="5dp"/>
 
             <TextView
@@ -80,7 +75,6 @@
                 android:text="Рабочее время с 9:00 до 17:00"
                 android:textSize="20sp"
                 android:textAlignment="center"
-                android:textColor="@color/black"
                 android:layout_marginTop="20dp"/>
 
             <EditText
@@ -111,7 +105,6 @@
                 android:text="Статистика опозданий"
                 android:textSize="20sp"
                 android:textAlignment="center"
-                android:textColor="@color/black"
                 android:layout_marginTop="20dp"/>
 
             <LinearLayout
@@ -161,7 +154,6 @@
                 android:text="Журнал посещяемости"
                 android:textSize="20sp"
                 android:textAlignment="center"
-                android:textColor="@color/black"
                 android:layout_marginTop="20dp"/>
 
             <ListView
