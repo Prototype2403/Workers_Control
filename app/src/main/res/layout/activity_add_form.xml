@@ -7,323 +7,227 @@
     android:layout_height="match_parent"
     tools:context=".AddForm">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/title_textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Добавить работника"
-            android:textAlignment="center"
-            android:textSize="24sp" />
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="30dp">
+            android:orientation="vertical"
+            android:paddingBottom="24dp">
 
             <TextView
-                android:id="@+id/textView_Family"
-                android:layout_width="40dp"
+                android:id="@+id/title_textView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Фамилия"
-                android:paddingStart="10dp"
-                android:textSize="16sp" />
+                android:layout_marginTop="16dp"
+                android:text="Добавить работника"
+                android:textAlignment="center"
+                android:textSize="24sp" />
 
-            <EditText
-                android:id="@+id/editText_Family"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="text"
-                android:minHeight="48dp"
-                android:hint="Иванов"
-                android:layout_marginEnd="10dp"/>
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView_Family"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingStart="10dp"
+                    android:text="Фамилия"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/editText_Family"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="10dp"
+                    android:ems="10"
+                    android:hint="Иванов"
+                    android:inputType="text"
+                    android:minHeight="48dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView_Name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingStart="10dp"
+                    android:text="Имя"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/editText_Name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="10dp"
+                    android:ems="10"
+                    android:hint="Иван"
+                    android:inputType="text"
+                    android:minHeight="48dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView_FatherName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingStart="10dp"
+                    android:text="Отчество"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/editText_FatherName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="10dp"
+                    android:ems="10"
+                    android:hint="Иванович"
+                    android:inputType="text"
+                    android:minHeight="48dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView_Post"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingStart="10dp"
+                    android:text="Должность"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/editText_Post"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="10dp"
+                    android:ems="10"
+                    android:hint="Главный инженер"
+                    android:inputType="text"
+                    android:minHeight="48dp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:text="Отметьте рабочие дни"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Пн" android:textAlignment="center" />
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Вт" android:textAlignment="center" />
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Ср" android:textAlignment="center" />
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Чт" android:textAlignment="center" />
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Пт" android:textAlignment="center" />
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Сб" android:textAlignment="center" />
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Вс" android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <CheckBox android:id="@+id/checkBox_Monday" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:minHeight="48dp" />
+                <CheckBox android:id="@+id/checkBox_Tuesday" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:minHeight="48dp" />
+                <CheckBox android:id="@+id/checkBox_Wednesday" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:minHeight="48dp" />
+                <CheckBox android:id="@+id/checkBox_Thursday" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:minHeight="48dp" />
+                <CheckBox android:id="@+id/checkBox_Friday" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:minHeight="48dp" />
+                <CheckBox android:id="@+id/checkBox_Saturday" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:minHeight="48dp" />
+                <CheckBox android:id="@+id/checkBox_Sunday" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:minHeight="48dp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:text="Укажите рабочее время"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:text="С"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/editText_TimeFrom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:contentDescription="Время начала"
+                    android:ems="4"
+                    android:focusable="false"
+                    android:minHeight="48dp"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:text="до"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/editText_TimeTo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:contentDescription="Время окончания"
+                    android:ems="4"
+                    android:focusable="false"
+                    android:minHeight="48dp"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/button_save"
+                android:layout_width="250dp"
+                android:layout_height="75dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:text="Сохранить" />
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView_Name"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Имя"
-                android:paddingStart="10dp"
-                android:textSize="16sp" />
-
-            <EditText
-                android:id="@+id/editText_Name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="text"
-                android:minHeight="48dp"
-                android:hint="Иван"
-                android:layout_marginEnd="10dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView_FatherName"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Отчество"
-                android:paddingStart="10dp"
-                android:textSize="16sp" />
-
-            <EditText
-                android:id="@+id/editText_FatherName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="text"
-                android:minHeight="48dp"
-                android:hint="Иванович"
-                android:layout_marginEnd="10dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView_Post"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Должность"
-                android:textSize="16sp"
-                android:paddingStart="10dp" />
-
-            <EditText
-                android:id="@+id/editText_Post"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="text"
-                android:minHeight="48dp"
-                android:hint="Главный инженер"
-                android:layout_marginEnd="10dp"/>
-
-        </LinearLayout>
-        <TextView
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Отметьте рабочие дни"
-            android:textSize="20sp"
-            android:textAlignment="center"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Пн"
-                android:textSize="18sp"
-                android:paddingLeft="5dp"
-                android:textAlignment="center"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Вт"
-                android:textSize="18sp"
-                android:paddingLeft="5dp"
-                android:textAlignment="center"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Ср"
-                android:textSize="18sp"
-                android:paddingLeft="5dp"
-                android:textAlignment="center"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Чт"
-                android:textSize="18sp"
-                android:paddingLeft="5dp"
-                android:textAlignment="center"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Пт"
-                android:textSize="18sp"
-                android:paddingLeft="5dp"
-                android:textAlignment="center"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Сб"
-                android:textSize="18sp"
-                android:paddingLeft="5dp"
-                android:textAlignment="center"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Вс"
-                android:textSize="18sp"
-                android:paddingLeft="5dp"
-                android:textAlignment="center"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <CheckBox
-                android:id="@+id/checkBox_Monday"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:minHeight="48dp"
-                />
-
-            <CheckBox
-                android:id="@+id/checkBox_Tuesday"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:minHeight="48dp" />
-            <CheckBox
-                android:id="@+id/checkBox_Wednesday"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:minHeight="48dp"
-                />
-
-            <CheckBox
-                android:id="@+id/checkBox_Thursday"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:minHeight="48dp" />
-
-            <CheckBox
-                android:id="@+id/checkBox_Friday"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:minHeight="48dp" />
-
-            <CheckBox
-                android:id="@+id/checkBox_Saturday"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:minHeight="48dp" />
-            <CheckBox
-                android:id="@+id/checkBox_Sunday"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:minHeight="48dp"
-                />
-        </LinearLayout>
-        <TextView
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Укажите рабочее время"
-            android:textSize="20sp"
-            android:textAlignment="center"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="С"
-                android:textSize="18sp"
-                android:layout_marginHorizontal="10dp"/>
-
-            <EditText
-                android:id="@+id/editText_TimeFrom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="4"
-                android:minHeight="48dp"
-                android:clickable="false"
-                android:focusable="false"
-                android:textAlignment="center"
-                android:contentDescription="TimeFrom"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="до"
-                android:textSize="18sp"
-                android:layout_marginHorizontal="10dp"
-                />
-
-            <EditText
-                android:id="@+id/editText_TimeTo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="4"
-                android:minHeight="48dp"
-                android:clickable="false"
-                android:focusable="false"
-                android:textAlignment="center"
-                android:contentDescription="TimeTo"
-                />
-
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/button_save"
-            android:layout_width="250dp"
-            android:layout_height="75dp"
-            android:text="Сохранить"
-            android:layout_marginTop="30dp"
-            />
-
-
-    </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

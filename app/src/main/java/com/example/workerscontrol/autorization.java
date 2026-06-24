@@ -1,17 +1,15 @@
 package com.example.workerscontrol;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.example.workerscontrol.data.WorkerRepository;
 
 public class autorization extends AppCompatActivity {
 
@@ -19,7 +17,6 @@ public class autorization extends AppCompatActivity {
     EditText editText_password;
     Button login_button;
     TextView error_text;
-    long id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,39 +34,30 @@ public class autorization extends AppCompatActivity {
     private void login(){
         String login = editText_login.getText().toString().trim();
         String password = editText_password.getText().toString().trim();
-        Intent next;
-        if (login.equals("admin") && password.equals("1234")){
-            next = new Intent(this, MainActivity.class);
-            startActivity(next);
-            finish();
-        } else if (login.equals("profile1") && password.equals("1111")) {
-            next = new Intent(this, ProfilWorker.class);
-            id = 1;
-            next.putExtra("id", id);
-            startActivity(next);
-            finish();
-        } else if (login.equals("profile2") && password.equals("2222")) {
-            next = new Intent(this, ProfilWorker.class);
-            id = 2;
-            next.putExtra("id", id);
-            startActivity(next);
-            finish();
-        } else if (login.equals("profile3") && password.equals("3333")) {
-            next = new Intent(this, ProfilWorker.class);
-            id = 3;
-            next.putExtra("id", id);
-            startActivity(next);
-            finish();
-        } else if (login.equals("profile4") && password.equals("4444")) {
-            next = new Intent(this, ProfilWorker.class);
-            id = 4;
-            next.putExtra("id", id);
-            startActivity(next);
-            finish();
-        }
-        else{
-        error_text.setText("Неверный логин или пароль");
-        }
-    }
 
+        if (login.equals("admin") && password.equals("1234")){
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+            return;
+        }
+
+        WorkerRepository repository = new WorkerRepository(this);
+        Cursor worker = repository.getWorkerByCredentials(login, password);
+        if (worker != null && worker.moveToFirst()) {
+            long id = worker.getLong(worker.getColumnIndexOrThrow("_id"));
+            worker.close();
+            repository.close();
+
+            Intent next = new Intent(this, ProfilWorker.class);
+            next.putExtra("id", id);
+            startActivity(next);
+            finish();
+            return;
+        }
+        if (worker != null) {
+            worker.close();
+        }
+        repository.close();
+        error_text.setText("Неверный логин или пароль");
+    }
 }

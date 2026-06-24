@@ -3,12 +3,15 @@ package com.example.workerscontrol;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.app.AlertDialog;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -24,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AppSettings.applyTheme(this);
+        AppSettings.applyLanguage(this);
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
@@ -65,5 +70,42 @@ public class MainActivity extends AppCompatActivity {
 
         WorkerCursorAdapter cursorAdapter = new WorkerCursorAdapter(this, data, false);
         dataListView.setAdapter(cursorAdapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.menu_admin_settings) {
+            startActivity(new Intent(this, AdminSettingsActivity.class));
+            return true;
+        }
+        if (item.getItemId() == R.id.menu_audit_log) {
+            startActivity(new Intent(this, AuditLogActivity.class));
+            return true;
+        }
+        if (item.getItemId() == R.id.menu_logout) {
+            confirmLogout();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void confirmLogout() {
+        new AlertDialog.Builder(this)
+                .setTitle("Выход")
+                .setMessage("Выйти на экран авторизации?")
+                .setPositiveButton("Да", (dialog, which) -> {
+                    Intent intent = new Intent(this, autorization.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                })
+                .setNegativeButton("Нет", null)
+                .show();
     }
 }

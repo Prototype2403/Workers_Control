@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <TextView
+        android:id="@+id/auditWorker_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="РЎРѕС‚СЂСѓРґРЅРёРє"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/auditDateTime_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="24.06.2026 09:00"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/auditAction_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Р”РµР№СЃС‚РІРёРµ"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/auditPlace_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="РњРµСЃС‚Рѕ"
+        android:textSize="14sp" />
+</LinearLayout>
+

@@ -1,22 +1,23 @@
 package com.example.workerscontrol;
 
-import java.util.Calendar;
 import android.annotation.SuppressLint;
-import android.app.TimePickerDialog;
+import android.app.AlertDialog;
+import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -25,40 +26,44 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.workerscontrol.data.EventRepository;
-import com.example.workerscontrol.data.WorkerRepository;
 import com.example.workerscontrol.data.WokerDbContract;
+import com.example.workerscontrol.data.WorkerRepository;
 import com.example.workerscontrol.fragments.NowStatistic;
 import com.example.workerscontrol.fragments.PeriodStatistic;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import android.app.AlertDialog;
-import android.content.Intent;
 
 public class ProfilWorker extends AppCompatActivity {
 
-    long id;
-    ImageView avatar_imageView;
-    TextView name_textView;
-    TextView post_textView;
-    TextView work_days_textView;
-    TextView work_time_textView;
-    TextView workStatus_textView;
-    EditText check_editText;
-    Button addEvent_button;
-    EventRepository eventsData;
-    boolean isWorking = false;
-    boolean dayCompleted = false;
-    Button now_button;
-    Button week_button;
-    Button mouth_button;
-    Button year_button;
-    ListView dataLog_listView;
+    private long id;
+    private ImageView avatarImageView;
+    private TextView nameTextView;
+    private TextView postTextView;
+    private TextView workDaysTextView;
+    private TextView workTimeTextView;
+    private TextView workStatusTextView;
+    private EventRepository eventsData;
+    private boolean isWorking = false;
+    private boolean dayCompleted = false;
+    private Button nowButton;
+    private Button weekButton;
+    private Button monthButton;
+    private Button yearButton;
+    private Button bluetoothButton;
+    private ListView dataLogListView;
+    private String currentAvatarPath;
+
+    private final ActivityResultLauncher<String> pickAvatarLauncher =
+            registerForActivityResult(new ActivityResultContracts.GetContent(), this::onAvatarPicked);
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AppSettings.applyTheme(this);
+        AppSettings.applyLanguage(this);
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_profil_worker);
@@ -69,53 +74,50 @@ public class ProfilWorker extends AppCompatActivity {
         });
 
         Bundle extras = getIntent().getExtras();
-        if(extras != null){
+        if (extras != null) {
             id = extras.getLong("id");
-        } else{
-            Toast.makeText(this, "Работник не найден", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Сотрудник не найден", Toast.LENGTH_LONG).show();
         }
 
-        avatar_imageView = findViewById(R.id.worker_avatar_imageView);
-        name_textView = findViewById(R.id.name_title_textView);
-        post_textView = findViewById(R.id.post_textView);
-        work_days_textView = findViewById(R.id.work_days_textView);
-        work_time_textView = findViewById(R.id.work_time_textView);
-        check_editText = findViewById(R.id.timeCheck_editText);
-        workStatus_textView = findViewById(R.id.textView_workStatus);
-        now_button = findViewById(R.id.now_button);
-        week_button = findViewById(R.id.week_button);
-        mouth_button = findViewById(R.id.mouth_button);
-        year_button = findViewById(R.id.year_button);
-        dataLog_listView = findViewById(R.id.dataLog_listView);
+        avatarImageView = findViewById(R.id.worker_avatar_imageView);
+        nameTextView = findViewById(R.id.name_title_textView);
+        postTextView = findViewById(R.id.post_textView);
+        workDaysTextView = findViewById(R.id.work_days_textView);
+        workTimeTextView = findViewById(R.id.work_time_textView);
+        workStatusTextView = findViewById(R.id.textView_workStatus);
+        nowButton = findViewById(R.id.now_button);
+        weekButton = findViewById(R.id.week_button);
+        monthButton = findViewById(R.id.mouth_button);
+        yearButton = findViewById(R.id.year_button);
+        bluetoothButton = findViewById(R.id.bluetooth_button);
+        dataLogListView = findViewById(R.id.dataLog_listView);
 
         showWorkerData();
 
         eventsData = new EventRepository(this);
         updateWorkerStatus();
 
-
         showNowStatistic();
         updateLogOfEvents();
 
-        dataLog_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long eventId) {
-                Cursor cursor = (Cursor) parent.getItemAtPosition(position);
-                if (cursor != null) {
-                    String date = cursor.getString(cursor.getColumnIndex(WokerDbContract.Events.COLUMN_DATE));
-                    String currentTime = cursor.getString(cursor.getColumnIndex(WokerDbContract.Events.COLUMN_TIME));
-                    int type = cursor.getInt(cursor.getColumnIndex(WokerDbContract.Events.COLUMN_TYPE));
-                    long workerId = cursor.getLong(cursor.getColumnIndex(WokerDbContract.Events.COLUMN_WORKER_ID));
+        nowButton.setOnClickListener(v -> showNowStatistic());
+        weekButton.setOnClickListener(v -> showWeekStatistic());
+        monthButton.setOnClickListener(v -> showMonthStatistic());
+        yearButton.setOnClickListener(v -> showYearStatistic());
+        bluetoothButton.setOnClickListener(v -> showBluetoothActionDialog());
+        avatarImageView.setOnClickListener(v -> showAvatarOptionsDialog());
+    }
 
-                    showTimeEditDialog(eventId, workerId, date, currentTime, type);
-                }
-            }
-        });
-
-        now_button.setOnClickListener(v -> showNowStatistic());
-        week_button.setOnClickListener(v -> showWeekStatistic());
-        mouth_button.setOnClickListener(v -> showMonthStatistic());
-        year_button.setOnClickListener(v -> showYearStatistic());
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (eventsData == null) {
+            eventsData = new EventRepository(this);
+        }
+        updateWorkerStatus();
+        updateLogOfEvents();
+        loadAvatar();
     }
 
     private void updateWorkerStatus() {
@@ -130,7 +132,6 @@ public class ProfilWorker extends AppCompatActivity {
         if (events != null && events.moveToFirst()) {
             do {
                 int eventType = events.getInt(events.getColumnIndex(WokerDbContract.Events.COLUMN_TYPE));
-
                 if (eventType == WokerDbContract.Events.EVENT_TO_WORK) {
                     hasArrival = true;
                     isWorking = true;
@@ -142,128 +143,233 @@ public class ProfilWorker extends AppCompatActivity {
         }
 
         dayCompleted = hasArrival && hasDeparture;
+        if (dayCompleted) {
+            workStatusTextView.setText("Рабочий день завершен");
+        } else if (isWorking) {
+            workStatusTextView.setText("На работе");
+        } else {
+            workStatusTextView.setText("Не на работе");
+        }
 
+        bluetoothButton.setEnabled(true);
+        bluetoothButton.setAlpha(1f);
 
         if (events != null) {
             events.close();
         }
     }
 
-    public void showWorkerData(){
+    private void showWorkerData() {
         WorkerRepository repository = new WorkerRepository(this);
         Cursor data = repository.getWorkerById(id);
-        if(data.moveToFirst()) {
+        if (data != null && data.moveToFirst()) {
             String name = data.getString(data.getColumnIndex(WokerDbContract.Worker.COLUMN_FIO));
             String post = data.getString(data.getColumnIndex(WokerDbContract.Worker.COLUMN_POST));
+            currentAvatarPath = data.getString(data.getColumnIndex(WokerDbContract.Worker.COLUMN_AVATAR_PATH));
 
             String[] dayLabels = {"Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"};
-            String workDays = "";
+            StringBuilder workDays = new StringBuilder();
             for (int i = 0; i < dayLabels.length; i++) {
                 int works = data.getInt(i + 3);
                 if (works == 1) {
-                    workDays = workDays + dayLabels[i] + " ";
+                    workDays.append(dayLabels[i]).append(" ");
                 }
             }
 
-            String work_time = "Рабочее время с " + data.getString(data.getColumnIndex(WokerDbContract.Worker.COLUMN_TIME_FROM)) + " до "
+            String workTime = "Рабочее время с "
+                    + data.getString(data.getColumnIndex(WokerDbContract.Worker.COLUMN_TIME_FROM))
+                    + " до "
                     + data.getString(data.getColumnIndex(WokerDbContract.Worker.COLUMN_TIME_TO));
 
-            name_textView.setText(name);
-            post_textView.setText(post);
-            work_days_textView.setText(workDays.trim());
-            work_time_textView.setText(work_time);
+            nameTextView.setText(name);
+            postTextView.setText(post);
+            workDaysTextView.setText(workDays.toString().trim());
+            workTimeTextView.setText(workTime);
+            loadAvatar();
         }
+        if (data != null) {
+            data.close();
+        }
+        repository.close();
     }
 
     private void showNowStatistic() {
-        NowStatistic fragment = NowStatistic.newInstance(id);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.statistic_frameLayout, fragment);
+        transaction.replace(R.id.statistic_frameLayout, NowStatistic.newInstance(id));
         transaction.addToBackStack(null);
         transaction.commit();
-
-        updateButtonStyles(now_button);
+        updateButtonStyles(nowButton);
     }
 
     private void showWeekStatistic() {
-        PeriodStatistic fragment = PeriodStatistic.newInstance(id, PeriodStatistic.PERIOD_WEEK);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.statistic_frameLayout, fragment);
+        transaction.replace(R.id.statistic_frameLayout, PeriodStatistic.newInstance(id, PeriodStatistic.PERIOD_WEEK));
         transaction.addToBackStack(null);
         transaction.commit();
-
-        updateButtonStyles(week_button);
+        updateButtonStyles(weekButton);
     }
 
     private void showMonthStatistic() {
-        PeriodStatistic fragment = PeriodStatistic.newInstance(id, PeriodStatistic.PERIOD_MONTH);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.statistic_frameLayout, fragment);
+        transaction.replace(R.id.statistic_frameLayout, PeriodStatistic.newInstance(id, PeriodStatistic.PERIOD_MONTH));
         transaction.addToBackStack(null);
         transaction.commit();
-
-        updateButtonStyles(mouth_button);
+        updateButtonStyles(monthButton);
     }
 
     private void showYearStatistic() {
-        PeriodStatistic fragment = PeriodStatistic.newInstance(id, PeriodStatistic.PERIOD_YEAR);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.statistic_frameLayout, fragment);
+        transaction.replace(R.id.statistic_frameLayout, PeriodStatistic.newInstance(id, PeriodStatistic.PERIOD_YEAR));
         transaction.addToBackStack(null);
         transaction.commit();
-
-        updateButtonStyles(year_button);
+        updateButtonStyles(yearButton);
     }
 
     private void updateButtonStyles(Button selectedButton) {
-        now_button.setAlpha(0.5f);
-        week_button.setAlpha(0.5f);
-        mouth_button.setAlpha(0.5f);
-        year_button.setAlpha(0.5f);
-
+        nowButton.setAlpha(0.5f);
+        weekButton.setAlpha(0.5f);
+        monthButton.setAlpha(0.5f);
+        yearButton.setAlpha(0.5f);
         selectedButton.setAlpha(1.0f);
     }
 
-    public void updateLogOfEvents(){
+    private void updateLogOfEvents() {
         EventRepository eventRepository = new EventRepository(this);
-        Cursor log = eventRepository.getEventsByWorker(id);
-        EventCursorAdapter cursorAdapter = new EventCursorAdapter(this, log, false);
-        dataLog_listView.setAdapter(cursorAdapter);
+        Cursor log = eventRepository.getAttendanceTableByWorker(id);
+        EventCursorAdapter cursorAdapter = new EventCursorAdapter(this, log, false, false, null);
+        dataLogListView.setAdapter(cursorAdapter);
     }
 
-    private void showTimeEditDialog(final long eventId, final long workerId, final String date, String currentTime, final int type) {
-        View dialogView = getLayoutInflater().inflate(R.layout.dialog_time_edit, null);
-        final EditText timeEditText = dialogView.findViewById(R.id.dialog_time_editText);
-        timeEditText.setText(currentTime);
-
-        timeEditText.setOnClickListener(v -> {
-            TimePickerDialog timePickerDialog = new TimePickerDialog(
-                    ProfilWorker.this,
-                    (timePicker, hourOfDay, minutes) -> {
-                        timeEditText.setText(String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minutes));
-                    },
-                    Integer.parseInt(currentTime.split(":")[0]),
-                    Integer.parseInt(currentTime.split(":")[1]),
-                    true
-            );
-            timePickerDialog.show();
-        });
-
-        String eventTypeText = type == WokerDbContract.Events.EVENT_TO_WORK ? "прихода" : "ухода";
-
+    private void showBluetoothActionDialog() {
+        CharSequence[] actions = {"Проход", "Отметка"};
         new AlertDialog.Builder(this)
-                .setTitle("Изменить время " + eventTypeText)
-                .setView(dialogView)
-                .setPositiveButton("Сохранить", (dialog, which) -> {
-                    String newTime = timeEditText.getText().toString();
-                    if (!newTime.equals(currentTime)) {
-                        EventRepository eventRepository = new EventRepository(this);
-                        eventRepository.updateEvent(eventId, workerId, date, newTime, type);
-                        updateLogOfEvents();
-                        updateWorkerStatus();
+                .setTitle("Выберите действие")
+                .setItems(actions, (dialog, which) -> {
+                    if (which == 0) {
+                        openBluetoothSearch(BluetoothSearchActivity.MODE_PASS);
+                    } else {
+                        confirmAttendanceMark();
                     }
                 })
-                .setNegativeButton("Отмена", null)
+                .show();
+    }
+
+    private void confirmAttendanceMark() {
+        new AlertDialog.Builder(this)
+                .setTitle("Отметка рабочего времени")
+                .setMessage("Вы уверены?")
+                .setPositiveButton("Да", (dialog, which) -> openBluetoothSearch(BluetoothSearchActivity.MODE_ATTENDANCE))
+                .setNegativeButton("Нет", null)
+                .show();
+    }
+
+    private void openBluetoothSearch(String mode) {
+        Intent intent = new Intent(ProfilWorker.this, BluetoothSearchActivity.class);
+        intent.putExtra("worker_id", id);
+        intent.putExtra(BluetoothSearchActivity.EXTRA_MODE, mode);
+        startActivity(intent);
+    }
+
+    private void showAvatarOptionsDialog() {
+        boolean hasAvatar = currentAvatarPath != null && !currentAvatarPath.trim().isEmpty()
+                && new File(currentAvatarPath).exists();
+        if (!hasAvatar) {
+            pickAvatarLauncher.launch("image/*");
+            return;
+        }
+
+        CharSequence[] options = {"Открыть аватарку", "Загрузить новую"};
+        new AlertDialog.Builder(this)
+                .setTitle("Аватарка")
+                .setItems(options, (dialog, which) -> {
+                    if (which == 0) {
+                        openAvatarPreview();
+                    } else {
+                        pickAvatarLauncher.launch("image/*");
+                    }
+                })
+                .show();
+    }
+
+    private void openAvatarPreview() {
+        if (currentAvatarPath == null || currentAvatarPath.trim().isEmpty()) {
+            Toast.makeText(this, "Аватарка не установлена", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        File file = new File(currentAvatarPath);
+        if (!file.exists()) {
+            Toast.makeText(this, "Файл аватарки не найден", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        ImageView preview = new ImageView(this);
+        int padding = Math.round(getResources().getDisplayMetrics().density * 16);
+        preview.setPadding(padding, padding, padding, padding);
+        AvatarUtils.loadAvatar(preview, currentAvatarPath);
+
+        new AlertDialog.Builder(this)
+                .setTitle("Аватарка")
+                .setView(preview)
+                .setPositiveButton("Закрыть", null)
+                .show();
+    }
+
+    private void onAvatarPicked(Uri uri) {
+        if (uri == null) {
+            return;
+        }
+        try {
+            String avatarPath = AvatarUtils.saveRoundedAvatar(this, uri, id);
+            WorkerRepository repository = new WorkerRepository(this);
+            ContentValues values = new ContentValues();
+            values.put(WokerDbContract.Worker.COLUMN_AVATAR_PATH, avatarPath);
+            repository.updateWorker(id, values);
+            repository.close();
+
+            currentAvatarPath = avatarPath;
+            loadAvatar();
+            Toast.makeText(this, "Аватарка обновлена", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "Не удалось загрузить аватарку", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void loadAvatar() {
+        AvatarUtils.loadAvatar(avatarImageView, currentAvatarPath);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.profil_worker_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.menu_worker_settings) {
+            Intent intent = new Intent(this, WorkerSettingsActivity.class);
+            intent.putExtra("worker_id", id);
+            startActivity(intent);
+            return true;
+        }
+        if (item.getItemId() == R.id.menu_logout) {
+            confirmLogout();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void confirmLogout() {
+        new AlertDialog.Builder(this)
+                .setTitle("Выход")
+                .setMessage("Выйти на экран авторизации?")
+                .setPositiveButton("Да", (dialog, which) -> {
+                    Intent intent = new Intent(this, autorization.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                })
+                .setNegativeButton("Нет", null)
                 .show();
     }
 
@@ -271,48 +377,4 @@ public class ProfilWorker extends AppCompatActivity {
     public void onBackPressed() {
         finish();
     }
-
-    /* @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.view_employee_menu, menu);
-        return true;
-    }
-
-     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.edit_worker){
-            Intent intent = new Intent(this, AddForm.class);
-            intent.putExtra("id", id);
-            startActivity(intent);
-        }else if(item.getItemId() == R.id.delete_worker){
-            new AlertDialog.Builder(this)
-                    .setTitle("Удаление работника")
-                    .setMessage("Вы действительно хотите удалить этого работника? Все его события также будут удалены.")
-                    .setPositiveButton("Да", (dialog, which) -> {
-                        WorkerRepository workerRepository = new WorkerRepository(this);
-                        EventRepository eventRepository = new EventRepository(this);
-
-                        Cursor events = eventRepository.getEventsByWorker(id);
-                        if (events != null && events.getCount() > 0) {
-                            while (events.moveToNext()) {
-                                long eventId = events.getLong(events.getColumnIndexOrThrow("_id"));
-                                eventRepository.deleteEvent(eventId);
-                            }
-                            events.close();
-                        }
-
-                        int result = workerRepository.deleteWorker(id);
-                        if (result > 0) {
-                            Toast.makeText(this, "Работник успешно удален", Toast.LENGTH_SHORT).show();
-                            finish();
-                        } else {
-                            Toast.makeText(this, "Ошибка при удалении работника", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .setNegativeButton("Нет", null)
-                    .show();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }*/
 }

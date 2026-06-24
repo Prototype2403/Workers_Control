@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/toggle_worker_notifications"
+        android:icon="@drawable/ic_notify_on_custom"
+        android:title="Уведомления"
+        app:showAsAction="always" />
+
     <item
         android:id="@+id/edit_worker"
-        android:title="Редактировать"
         android:icon="@drawable/baseline_app_registration_24"
-        app:showAsAction="always"
-        />
+        android:title="Редактировать"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/worker_security"
+        android:title="Безопасность"
+        app:showAsAction="never" />
+
     <item
         android:id="@+id/delete_worker"
         android:title="Удалить"
-        app:showAsAction="never"
-        />
+        app:showAsAction="never" />
 </menu>

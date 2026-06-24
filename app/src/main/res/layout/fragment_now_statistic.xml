@@ -8,8 +8,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginHorizontal="25dp">
+        android:layout_marginHorizontal="25dp"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,9 +19,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Время прихода:"
-                android:textSize="14sp"
-                android:layout_weight="1"/>
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/comeTime_textView"
@@ -29,37 +29,37 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:text="--:--"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Время ухода:"
-                android:textSize="14sp"
-                android:layout_weight="1"/>
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/homeTime_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="--:--"
-                android:textSize="14sp"
                 android:layout_weight="3"
-                />
+                android:text="--:--"
+                android:textSize="14sp" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/latenessText_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Опоздание на:"
-                android:textSize="14sp"
-                android:layout_weight="1" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/lateness_textView"
@@ -67,25 +67,23 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:text="--:--"
-                android:textSize="14sp"
-                />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/overtimeText_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Переработка на:"
-                android:textSize="14sp"
-                android:layout_weight="1"/>
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/overTime_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="--:--"
-                android:textSize="14sp"
                 android:layout_weight="3"
-                />
+                android:text="--:--"
+                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

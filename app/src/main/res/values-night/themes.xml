@@ -12,5 +12,5 @@
         <item name="android:buttonStyle">@style/Widget.AppCompat.Button.Colored</item>
     </style>
     <style name="Theme.WorkersControl" parent="Base.Theme.WorkersControl" />
-    <style name="mainText">#FFFFFF</style>
+    <style name="mainText">#000000</style>
 </resources>
